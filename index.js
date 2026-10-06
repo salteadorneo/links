@@ -3,6 +3,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { parseYaml } from './lib/yaml-parser.js';
 import { renderDashboard, renderNotFound, renderRedirect, t } from './lib/generators.js';
+import { resolveBasePath } from './lib/utils.js';
 
 const ROOT = process.cwd();
 const OUTPUT_DIR = path.join(ROOT, '_site');
@@ -12,13 +13,6 @@ const RESERVED_HASHES = new Set(['index.html', '404.html', 'links.js', 'CNAME', 
 function fail(message) {
   console.error(`\x1b[31mError:\x1b[0m ${message}`);
   process.exit(1);
-}
-
-function normalizeBasePath(value) {
-  let base = (value || '/').trim();
-  if (!base.startsWith('/')) base = `/${base}`;
-  if (!base.endsWith('/')) base = `${base}/`;
-  return base;
 }
 
 function validate(config) {
@@ -82,7 +76,7 @@ async function main() {
   const site = validate(config);
   const links = config.links;
   const lang = site.language;
-  const basePath = normalizeBasePath(process.env.BASE_PATH || site.basePath);
+  const basePath = resolveBasePath({ domain: site.domain, basePath: site.basePath });
   const baseUrl = site.domain ? `https://${site.domain}/` : '';
 
   await cleanOutput(OUTPUT_DIR);

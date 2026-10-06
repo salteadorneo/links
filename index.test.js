@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseYaml } from './lib/yaml-parser.js';
+import { normalizeBasePath, resolveBasePath } from './lib/utils.js';
 
 test('parses nested maps, lists of maps and scalars', () => {
   const yaml = `
@@ -50,4 +51,14 @@ test('parses literal blocks and empty config', () => {
   const config = parseYaml('site:\n  note: |\n    line one\n    line two\n');
   assert.equal(config.site.note, 'line one\nline two');
   assert.deepEqual(parseYaml('# only comments\n'), {});
+});
+
+test('resolves the base path for every hosting mode', () => {
+  assert.equal(resolveBasePath({ env: { GITHUB_REPOSITORY: 'user/links' } }), '/links/');
+  assert.equal(resolveBasePath({ env: { GITHUB_REPOSITORY: 'user/user.github.io' } }), '/');
+  assert.equal(resolveBasePath({ domain: 'links.example.com', env: {} }), '/');
+  assert.equal(resolveBasePath({ basePath: 'go', env: {} }), '/go/');
+  assert.equal(resolveBasePath({ env: { BASE_PATH: 'custom/', GITHUB_REPOSITORY: 'user/links' } }), '/custom/');
+  assert.equal(resolveBasePath({ env: {} }), '/');
+  assert.equal(normalizeBasePath('/a/b'), '/a/b/');
 });

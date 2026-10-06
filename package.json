@@ -1,0 +1,19 @@
+{
+  "name": "link",
+  "version": "1.0.0",
+  "description": "Acortador de links estático para GitHub Pages, sin base de datos",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "shortener",
+    "url-shortener",
+    "github-pages",
+    "static",
+    "template"
+  ],
+  "license": "MIT"
+}

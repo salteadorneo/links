@@ -1,0 +1,11 @@
+domain: links.salteadorneo.dev
+
+links:
+  - hash: gh
+    url: https://github.com/salteadorneo
+
+  - hash: web
+    url: https://salteadorneo.dev
+
+  - hash: x
+    url: https://x.com/salteadorneodev

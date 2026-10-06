@@ -1,8 +1,8 @@
 # Link Shortener
 
-Acortador de links estilo **bit.ly**, 100% estático y sin base de datos, hosteado en **GitHub Pages**.
+Acortador de links 100% estático y sin base de datos, hosteado en **GitHub Pages**.
 
-Toda la configuración vive en un solo archivo: `config.yml`. Hacé push y GitHub Actions construye y despliega tu propio acortador con subdominio propio.
+Toda la configuración vive en un solo archivo: `config.yml`. Haz push y GitHub Actions construye y despliega tu propio acortador con subdominio propio.
 
 [![Web](https://img.shields.io/badge/demo-mislinks-2f81f7)](#)
 
@@ -15,7 +15,7 @@ Toda la configuración vive en un solo archivo: `config.yml`. Hacé push y GitHu
 - 🎨 **Dark mode** — respeta el tema del sistema
 - 🌍 **Multi-idioma** — español e inglés
 - 📱 **Responsive** — dashboard minimalista en monospace
-- 🔗 **Subdominio propio** — `links.tudominio.com` generado desde el config
+- 🔗 **Subdominio propio** — `link.tudominio.com` generado desde el config
 - 🛡️ **404 inteligente** — rutas desconocidas caen en un mapa de links y redirigen igual
 - 🧪 **Tests** — `node --test` para el parser YAML
 
@@ -23,14 +23,14 @@ Toda la configuración vive en un solo archivo: `config.yml`. Hacé push y GitHu
 
 ### 1. Crea tu repo
 
-Usá este repo como **template** (botón *Use this template*) o hacé fork.
+Usa este repo como **template** (botón *Use this template*) o haz un fork.
 
 ### 2. Configura tus links
 
-Editá `config.yml`:
+Edita `config.yml`:
 
 ```yaml
-domain: links.tudominio.com   # opcional: subdominio propio
+domain: link.tudominio.com
 
 links:
   - hash: gh
@@ -42,8 +42,8 @@ links:
 
 ### 3. Publica
 
-1. **Settings → Pages → Source**: seleccioná **GitHub Actions**
-2. Hacé push a `main`
+1. **Settings → Pages → Source**: selecciona **GitHub Actions**
+2. Haz push a `main`
 3. Listo: `https://tu-usuario.github.io/tu-repo/gh/`
 
 ## Cómo funciona
@@ -53,11 +53,11 @@ links:
 
 ```
 _site/
-  index.html        # Dashboard con todos tus links
-  404.html          # Fallback: redirige si el hash existe en el mapa
+  index.html
+  404.html
   .nojekyll
-  CNAME             # Solo si definiste domain
-  {hash}/index.html # Una página de redirect por link
+  CNAME
+  {hash}/index.html
 ```
 
 3. Se despliega como artifact de GitHub Pages
@@ -78,7 +78,7 @@ Así que `/gh/?utm_source=twitter` llega a `https://destino.com/?utm_source=twit
 Todo en `config.yml`, solo dos claves:
 
 ```yaml
-domain: links.midominio.com   # Opcional: genera el archivo CNAME
+domain: link.midominio.com   # Opcional: genera el archivo CNAME
 
 links:                        # Obligatorio
   - hash: gh                  # [a-zA-Z0-9_-], único → /gh/
@@ -100,19 +100,19 @@ Los hashes no pueden repetirse ni usar nombres reservados (`index.html`, `404.ht
 
 ## Dominio propio
 
-1. Agregá en `config.yml`:
+1. Agrega en `config.yml`:
 
    ```yaml
-   domain: links.tudominio.com
+   domain: link.tudominio.com
    ```
 
-2. Apuntá tu DNS:
+2. Apunta tu DNS:
    - **Apex**: `tudominio.com` → IPs de GitHub Pages (`185.199.108.153`, `.109.153`, `.110.153`, `.111.153`)
-   - **Subdominio**: `links.tudominio.com` → `tu-usuario.github.io` (CNAME)
+   - **Subdominio**: `link.tudominio.com` → `tu-usuario.github.io` (CNAME)
 
 3. Push: el build genera el archivo `CNAME` automáticamente.
 
-También podés configurar el dominio en **Settings → Pages → Custom domain** (el CNAME del build lo mantiene).
+También puedes configurar el dominio en **Settings → Pages → Custom domain** (el CNAME del build lo mantiene).
 
 ## Local Development
 
@@ -120,14 +120,14 @@ También podés configurar el dominio en **Settings → Pages → Custom domain*
 node index.js     # o npm run build
 ```
 
-Genera `_site/`. Servilo localmente:
+Genera `_site/`. Sírvelo localmente:
 
 ```bash
 npx serve _site        # o
 python -m http.server -d _site
 ```
 
-Para probar el 404 con `serve`, serví con `npx serve _site` (ya maneja `404.html`).
+Para probar el 404 con `serve`, sirve con `npx serve _site` (ya maneja `404.html`).
 
 ```bash
 npm test          # tests del parser YAML
@@ -160,7 +160,7 @@ Archivos generados (en `_site/`, no se commitean).
 
 **¿Funciona en un repo de organización o user page?** Sí. El workflow calcula el `BASE_PATH` solo (`/` si el repo termina en `.github.io`).
 
-**¿Y si quiero analytics?** Usá parámetros UTM en la URL destino y medí en tu propia herramienta (Plausible, GA, etc.).
+**¿Y si quiero analytics?** Usa parámetros UTM en la URL destino y mide en tu propia herramienta (Plausible, GA, etc.).
 
 ## Licencia
 

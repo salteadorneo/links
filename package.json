@@ -1,6 +1,6 @@
 {
   "name": "link",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Acortador de links estático para GitHub Pages, sin base de datos",
   "type": "module",
   "main": "index.js",

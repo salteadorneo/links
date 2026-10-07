@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseYaml } from './lib/yaml-parser.js';
+import { renderDashboard } from './lib/generators.js';
 import { normalizeBasePath, resolveBasePath } from './lib/utils.js';
 
 test('parses nested maps, lists of maps and scalars', () => {
@@ -61,4 +62,29 @@ test('resolves the base path for every hosting mode', () => {
   assert.equal(resolveBasePath({ env: { BASE_PATH: 'custom/', GITHUB_REPOSITORY: 'user/links' } }), '/custom/');
   assert.equal(resolveBasePath({ env: {} }), '/');
   assert.equal(normalizeBasePath('/a/b'), '/a/b/');
+});
+
+test('renders a QR code for each short link using the deployment base path', () => {
+  const html = renderDashboard({
+    site: { title: 'mislinks' },
+    links: [
+      { hash: 'gh', url: 'https://github.com/' },
+      { hash: 'blog', url: 'https://example.com/blog' },
+    ],
+    lang: 'es',
+    base: '/repo/',
+  });
+
+  assert.match(html, /<a class="short" href="\/repo\/gh\/"[^>]*>\/repo\/gh\/<\/a>/);
+  assert.match(html, /<a class="qr-download" data-url="\/repo\/gh\/" download="gh\.png"/);
+  assert.match(html, /<a class="qr-download" data-url="\/repo\/blog\/" download="blog\.png"/);
+  assert.equal((html.match(/class="qr"/g) || []).length, 2);
+  assert.match(html, /<svg aria-hidden="true" viewBox="0 0 24 24"/);
+  assert.match(html, /class="copy"[^>]*data-url="\/repo\/gh\/"/);
+  assert.match(html, /<div class="muted dest">https:\/\/github\.com\/<\/div>/);
+  assert.doesNotMatch(html, /<a class="dest"/);
+  assert.match(html, /\.qr\{display:block;width:64px;height:64px/);
+  assert.doesNotMatch(html, /Copiado|Copied/);
+  assert.match(html, /<table>/);
+  assert.match(html, /api\.qrserver\.com\/v1\/create-qr-code/);
 });

@@ -15,6 +15,7 @@ Toda la configuración vive en un solo archivo: `config.yml`. Haz push y GitHub 
 - 🎨 **Dark mode** — respeta el tema del sistema
 - 🌍 **Multi-idioma** — español e inglés
 - 📱 **Responsive** — dashboard minimalista en monospace
+- 🔳 **Código QR por enlace** — cada QR abre la URL corta correspondiente
 - 🔗 **Subdominio propio** — `link.tudominio.com` generado desde el config
 - 🛡️ **404 inteligente** — rutas desconocidas caen en un mapa de links y redirigen igual
 - 🧪 **Tests** — `node --test` para el parser YAML
@@ -147,6 +148,8 @@ lib/
 ```
 
 Archivos generados (en `_site/`, no se commitean).
+
+Los QR del dashboard se cargan desde [QRServer](https://qrserver.com/). El servicio recibe la URL corta pública para generar cada imagen. Haz clic en el QR para descargarlo como PNG; usa el icono junto al enlace para copiar su URL.
 
 ## FAQ
 

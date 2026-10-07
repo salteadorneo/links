@@ -91,7 +91,11 @@ async function main() {
     );
   }
 
-  await writeFile(path.join(OUTPUT_DIR, 'index.html'), renderDashboard({ site, links, lang }), 'utf8');
+  await writeFile(
+    path.join(OUTPUT_DIR, 'index.html'),
+    renderDashboard({ site, links, lang, base: basePath }),
+    'utf8',
+  );
   await writeFile(
     path.join(OUTPUT_DIR, '404.html'),
     renderNotFound({ site, links, lang, basePath }),

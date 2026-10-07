@@ -1,10 +1,8 @@
-# Link Shortener
+# Links
 
 Acortador de links 100% estático y sin base de datos, hosteado en **GitHub Pages**.
 
 Toda la configuración vive en un solo archivo: `config.yml`. Haz push y GitHub Actions construye y despliega tu propio acortador con subdominio propio.
-
-[![Web](https://img.shields.io/badge/demo-mislinks-2f81f7)](#)
 
 ## Features
 

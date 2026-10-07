@@ -87,4 +87,6 @@ test('renders a QR code for each short link using the deployment base path', () 
   assert.doesNotMatch(html, /Copiado|Copied/);
   assert.match(html, /<table>/);
   assert.match(html, /api\.qrserver\.com\/v1\/create-qr-code/);
+  assert.match(html, /href="https:\/\/github\.com\/salteadorneo\/links"[^>]*>[\s\S]*<svg aria-hidden="true" viewBox="0 0 16 16"/);
+  assert.match(html, /<span>salteadorneo\/links<\/span>/);
 });

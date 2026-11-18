@@ -170,6 +170,35 @@ test('adds a restrictive CSP to redirect and 404 pages', () => {
   }
 });
 
+test('adds the link favicon to every page', () => {
+  const dashboard = renderDashboard({
+    site: { title: 'mislinks' },
+    links: [{ hash: 'gh', url: 'https://github.com/' }],
+    lang: 'es',
+  });
+  const redirect = renderRedirect({
+    url: 'https://example.com',
+    hash: 'ex',
+    lang: 'es',
+    site: { title: 'mislinks' },
+  });
+  const notFound = renderNotFound({
+    links: [],
+    lang: 'es',
+    basePath: '/',
+  });
+
+  const icon = /<link rel="icon" type="image\/svg\+xml" href="data:image\/svg\+xml,/;
+  for (const html of [dashboard, redirect, notFound]) {
+    assert.match(html, icon);
+    assert.match(html, /%232f81f7/);
+  }
+
+  assert.match(dashboard, /img-src 'self' data:/);
+  assert.match(redirect, /img-src data:/);
+  assert.match(notFound, /img-src data:/);
+});
+
 test('validates optional report and analytics URLs', () => {
   const base = { links: [{ hash: 'gh', url: 'https://github.com/' }] };
 

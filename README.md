@@ -6,7 +6,7 @@ Toda la configuración vive en un solo archivo: `config.yml`. Haz push y GitHub 
 
 ## Features
 
-- 🚀 **Cero dependencias** — Node.js puro con ES modules (ni `npm install`)
+- 🚀 **Cero dependencias en runtime** — Node.js puro con ES modules (ESLint solo para desarrollo)
 - 📄 **Sin base de datos** — cada link es un HTML estático con redirect
 - ⚡ **Redirect instantáneo** — `meta refresh` + `location.replace()`, funciona sin JS
 - 🌐 **GitHub Pages** — build y deploy automático con GitHub Actions
@@ -17,7 +17,7 @@ Toda la configuración vive en un solo archivo: `config.yml`. Haz push y GitHub 
 - 📊 **Analytics opcional** — script configurable, solo en el dashboard
 - 🔗 **Subdominio propio** — `link.tudominio.com` generado desde el config
 - 🛡️ **404 inteligente** — rutas desconocidas caen en un mapa de links y redirigen igual
-- 🧪 **Tests** — `node --test` para el parser YAML
+- 🧪 **Tests y lint** — `node --test` + ESLint, ejecutados en CI
 
 ## Quick Start
 
@@ -133,7 +133,9 @@ python -m http.server -d _site
 Para probar el 404 con `serve`, sirve con `npx serve _site` (ya maneja `404.html`).
 
 ```bash
-npm test          # tests del parser YAML
+npm install       # dependencias de desarrollo (ESLint)
+npm test          # tests (node --test)
+npm run lint      # lint con ESLint
 ```
 
 ## Proyecto Structure
@@ -142,6 +144,7 @@ npm test          # tests del parser YAML
 config.yml                # ← Tu configuración (único archivo a editar)
 index.js                  # Build: valida config y genera _site/
 index.test.js             # Tests (node --test)
+eslint.config.js          # Configuración de ESLint
 lib/
   yaml-parser.js          # Parser YAML sin dependencias
   config.js               # Validación de config.yml

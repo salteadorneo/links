@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "build": "node index.js",
-    "test": "node --test"
+    "test": "node --test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [
     "shortener",
@@ -15,5 +17,10 @@
     "static",
     "template"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0"
+  }
 }

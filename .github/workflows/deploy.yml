@@ -26,6 +26,12 @@ jobs:
         with:
           node-version: lts/*
 
+      - name: Install dev dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
       - name: Test
         run: npm test
 

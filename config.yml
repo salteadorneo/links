@@ -1,4 +1,5 @@
 domain: link.salteadorneo.dev
+analytics: https://a.salteadorneo.dev/a.js
 
 links:
   - hash: gh

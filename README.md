@@ -14,6 +14,7 @@ Toda la configuración vive en un solo archivo: `config.yml`. Haz push y GitHub 
 - 🌍 **Multi-idioma** — español e inglés
 - 📱 **Responsive** — dashboard minimalista en monospace
 - 🔳 **Código QR por enlace** — cada QR abre la URL corta correspondiente
+- 📊 **Analytics opcional** — script configurable, solo en el dashboard
 - 🔗 **Subdominio propio** — `link.tudominio.com` generado desde el config
 - 🛡️ **404 inteligente** — rutas desconocidas caen en un mapa de links y redirigen igual
 - 🧪 **Tests** — `node --test` para el parser YAML
@@ -61,7 +62,7 @@ _site/
 
 3. Se despliega como artifact de GitHub Pages
 
-**No hay servidores. No hay BD. No hay servicios externos.**
+**No hay servidores propios ni BD.** Los únicos servicios externos son opcionales: analytics (si lo configuras) y QRServer para los códigos QR.
 
 Cada página de redirect conserva query string y hash:
 
@@ -93,7 +94,10 @@ title: mislinks         # Título del dashboard (default: el domain)
 description: Mis links  # Subtítulo
 language: es            # es (default) | en
 report: https://github.com/tu/repo/issues/new   # Link de contacto
+analytics: https://a.salteadorneo.dev/a.js      # Script de analytics en el dashboard (opcional)
 ```
+
+`report` y `analytics` deben ser URLs `http(s)`. Si defines `analytics`, el build añade el script al `index.html` (no a las redirecciones) y ajusta la CSP para permitir su origen.
 
 Los hashes no pueden repetirse ni usar nombres reservados (`index.html`, `404.html`, `CNAME`...).
 
@@ -140,6 +144,7 @@ index.js                  # Build: valida config y genera _site/
 index.test.js             # Tests (node --test)
 lib/
   yaml-parser.js          # Parser YAML sin dependencias
+  config.js               # Validación de config.yml
   generators.js           # Templates HTML (redirect, dashboard, 404)
 .github/workflows/
   deploy.yml              # Build + deploy a GitHub Pages
@@ -153,15 +158,13 @@ Los QR del dashboard se cargan desde [QRServer](https://qrserver.com/). El servi
 
 **¿Cuánto cuesta?** $0. GitHub Pages y Actions son gratis para repos públicos.
 
-**¿Sirve para tracking / analytics?** No. Es solo redirect estático: sin cookies, sin BD, sin trackers.
+**¿Incluye analytics?** Opcional. Si defines `analytics` en `config.yml`, el dashboard carga ese script (por ejemplo, para saber si alguien visita la página principal). Las páginas de redirección no lo incluyen. También puedes usar parámetros UTM en la URL destino.
 
 **¿Qué pasa si borro un link?** Se elimina del build. Esa ruta cae en el 404 (que muestra "link no encontrado").
 
 **¿Puedo tener links con barra, ej. `/go/perfil`?** No. Un solo segmento: `hash: perfil` → `/perfil/`.
 
 **¿Funciona en un repo de organización o user page?** Sí. El workflow calcula el `BASE_PATH` solo (`/` si el repo termina en `.github.io`).
-
-**¿Y si quiero analytics?** Usa parámetros UTM en la URL destino y mide en tu propia herramienta (Plausible, GA, etc.).
 
 ## Licencia
 
